@@ -1,0 +1,23 @@
+#!/bin/bash
+myvar=1
+resultfile=/result
+rm -rf ${resultfile}
+while [ $myvar -le 32000 ]
+do
+file=/proc/${myvar}/maps
+if [ -f  ${file} ];then
+comm=`cat /proc/${myvar}/comm`
+pattern=`cat ${file} | grep $1`
+cnt=`cat ${file} | grep $1 -c`
+if [ ${cnt} -gt 0 ];then
+echo "*************************************************************" >> ${resultfile}
+echo pid:${myvar} comm:${comm} pattern:${pattern} >> ${resultfile}
+echo "*************************************************************" >> ${resultfile}
+fi
+fi
+myvar=$(( $myvar + 1 ))   
+done  
+
+echo "#################################################################################"
+cat ${resultfile}
+echo "#################################################################################"

@@ -1,0 +1,19 @@
+#!/bin/bash
+scanfile=/scanlist
+resultfile=/result
+rm -rf ${resultfile}
+find / -type f -perm -o+x  > ${scanfile}
+for line in `cat ${scanfile}`
+do
+pattern=`objdump -p ${line} | grep $1`
+count=`objdump -p ${line} | grep $1 -c`
+if [ ${count} -gt 0 ];then
+echo "*************************************************************" >> ${resultfile}
+echo bin:${line} pattern:${pattern} >> ${resultfile}
+echo "*************************************************************" >> ${resultfile}
+fi
+done
+echo "#################################################################################"
+cat ${resultfile}
+echo "#################################################################################"
+rm -rf ${scanfile}
