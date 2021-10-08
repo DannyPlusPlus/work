@@ -1,0 +1,13 @@
+#!/bin/bash
+scanfile=$1
+checkfile=$2
+resultfile=`pwd`/result
+rm -rf ${resultfile}
+for line in `cat ${scanfile}`
+do
+count=`cat ${checkfile} | grep ${line} -c`
+if [ ${count} -eq 0 ];then
+echo ${line} >> ${resultfile}		
+fi
+done
+cat ${resultfile}
